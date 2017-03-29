@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'crc';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/crc/crc.woff') format('woff');
+}
+@font-face {
+  font-family: 'is';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/is/is-light.woff') format('woff');
+}
+@font-face {
+  font-family: 'is';
+  font-weight: 600;
+  src: url('../fonts/is/is-reg.woff') format('woff');
+}
