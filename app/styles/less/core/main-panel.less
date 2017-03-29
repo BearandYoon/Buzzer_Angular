@@ -1,0 +1,83 @@
+/* $main-panel
+ ------------------------------------------*/
+
+.main-panel {
+  .clearfix();
+  background: @main-panel-bg;
+  > .main-content {
+    .clearfix();
+    padding: @gutter;
+    margin-bottom: @footer-height;
+    position: relative;
+    &.no-padding {
+      padding: 0;
+    }
+  }
+  .row {
+    margin-right: (@gutter / -2);
+    margin-left: (@gutter / -2);
+  }
+  .make-grid-columns();
+}
+
+.main-content > .ng-scope{
+  box-shadow: @shad;
+}
+.noshad{
+  box-shadow: none !important;
+}
+.separator{
+  text-transform: uppercase;
+  font-family: 'crc', "is", Helvetica, arial, sans-serif;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: lighten(@gray-base, 66%);
+  padding: 0 10px;
+}
+.separator hr {
+  width: 100%;
+  margin-top: -10px;
+  padding: 0;
+  height: 1px;
+  border: 0;
+}
+.separator span{
+    background: @main-panel-bg;
+    padding-right: 10px;
+}
+
+.center-wrapper {
+  display: table;
+  .square(100%);
+  position: relative;
+  .center-content {
+    display: table-cell;
+    vertical-align: middle;
+    .square(100%);
+    float: none;
+  }
+}
+
+
+@media (max-width: @screen-xs-max) {
+  // Align text to center.
+  .text-xs-center {
+    text-align: center;
+  }
+  table.table > thead > tr > th {
+    padding: 0;
+  }
+  table.table > tbody > tr > td {
+    padding-left: 4px;
+    padding-right: 4px;
+    white-space: normal;
+  }
+}
+
+
+
+@media screen and (min-width: @screen-md-min) {
+  .main-panel {
+    margin-left: @sidebar-width;
+  }
+}

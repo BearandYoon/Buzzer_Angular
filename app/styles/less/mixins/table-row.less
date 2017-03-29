@@ -1,0 +1,32 @@
+// Tables
+.table-row-variant(@state;
+@background;
+@border) {
+  .table > thead > tr, .table > tbody > tr, .table > tfoot > tr {
+    > td.@{state},
+    > th.@{state},
+    &.@{state} > td,
+    &.@{state} > th {
+      background-color: lighten(@background, 25%);
+      border-color: lighten(@border, 20%);
+    }
+  }
+  .table-hover > tbody > tr {
+    > td.@{state}:hover,
+    > th.@{state}:hover,
+    &.@{state}:hover > td,
+    &:hover > .@{state},
+    &.@{state}:hover > th {
+      background-color: darken(@background, 28%);
+      border-color: darken(@border, 28%);
+    }
+  }
+}
+
+.nps-persona{
+  display:block; font-style: italic; margin: 5px;
+}
+.nps-persona:before{content: '\2018\2018'; font-size: 15px; font-weight: 800;}
+.nps-persona:after{content: '\2019\2019'; font-size: 15px; font-weight: 800;}
+
+.noborder{border:none !important;}
