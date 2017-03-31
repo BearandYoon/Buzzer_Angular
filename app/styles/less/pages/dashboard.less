@@ -1,0 +1,39 @@
+.question-change {
+  float: right;
+  height: 40px;
+  padding-top: 10px;
+  font-weight: 600;
+  .fa {
+    font-size: 30px;
+    position: relative;
+    top: 8px;
+  }
+  .question-change-size {
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    top: -20px;
+    text-align: center;
+    &.question-no-change {
+      top: 0;
+      .question-change-text-no-change {
+        margin-bottom: 4px;
+      }
+    }
+    .question-change-direction-text {
+      font-size: 8px;
+      position: relative;
+      top: 6px;
+    }
+    .question-change-direction-text-below {
+      font-size: 8px;
+      position: relative;
+      top: -3px;
+      font-size: 57%;
+      line-height: 120%;
+    }
+    .question-change-number {
+      font-size: 20px;
+    }
+  }
+}

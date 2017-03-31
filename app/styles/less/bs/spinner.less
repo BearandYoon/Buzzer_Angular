@@ -1,0 +1,95 @@
+@loading-color: #00d9ff;
+
+.loading-visible:not(.loading) {
+  filter: blur(8px);
+  -webkit-filter: blur(8x);
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.7);
+  .transition(opacity 0.3s);
+  &.loading-visible {
+    opacity: 1;
+  }
+  &.loading-hidden {
+    opacity: 0;
+  }
+}
+
+.sk-folding-cube {
+  //margin: 20px auto;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  .rotateZ_translate(45deg, -50%, -50%);
+}
+
+.sk-folding-cube .sk-cube {
+  float: left;
+  width: 50%;
+  height: 50%;
+  position: relative;
+  .scale(1.1, 1);
+}
+.sk-folding-cube .sk-cube:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: @loading-color;
+  .animation(sk-foldCubeAngle 2.4s infinite linear both);
+  .transform-origin(100% 100%);
+}
+.sk-folding-cube .sk-cube2 {
+  .scale_rotateZ(1.1, 90deg);
+}
+.sk-folding-cube .sk-cube3 {
+  .scale_rotateZ(1.1, 180deg);
+}
+.sk-folding-cube .sk-cube4 {
+  .scale_rotateZ(1.1, 270deg);
+}
+.sk-folding-cube .sk-cube2:before {
+  .animation-delay(0.3s);
+}
+.sk-folding-cube .sk-cube3:before {
+  .animation-delay(0.6s);
+}
+.sk-folding-cube .sk-cube4:before {
+  .animation-delay(0.9s);
+}
+@-webkit-keyframes sk-foldCubeAngle {
+  0%, 10% {
+    .perspective_rotateX(140px, -180deg);
+    opacity: 0;
+  } 25%, 75% {
+      .perspective_rotateX(140px, 0deg);
+      opacity: 1;
+    } 90%, 100% {
+        .perspective_rotateY(140px, 180deg);
+        opacity: 0;
+      }
+}
+
+@keyframes sk-foldCubeAngle {
+  0%, 10% {
+    .perspective_rotateX(140px, -180deg);
+    opacity: 0;
+  } 25%, 75% {
+    .perspective_rotateX(140px, 0deg);
+    opacity: 1;
+    } 90%, 100% {
+        .perspective_rotateY(140px, 180deg);
+        opacity: 0;
+      }
+}
