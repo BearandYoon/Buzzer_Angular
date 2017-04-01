@@ -1,0 +1,148 @@
+<div class="fs-form-wrap" id="fs-form-wrap">
+    <div class="fs-title">
+        <h1>Sign up</h1>
+    </div>
+    <form id="myform"
+          class="fs-form fs-form-full"
+          autocomplete="off"
+          name="myForm"
+          ng-submit="sendAnswers(myForm.$valid)">
+        <ol class="fs-fields">
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
+                <input ng-model="myForm.username" class="fs-anim-lower" id="q1" name="q1" type="text"
+                       placeholder="Type your name..." required/>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q2"
+                       data-info="We won't send you spam, we just need to verify your contact details...">Hi <span
+                        id="displayname">there</span>! What's your email address?</label>
+                <input ng-model="myForm.email" class="fs-anim-lower" id="q2" name="q2" type="email"
+                       placeholder="Type your email address..." required/>
+            </li>
+            <li data-input-trigger>
+                <label class="fs-field-label fs-anim-upper" for="q3"
+                       data-info="This will help us know what kind of service you need">So <span
+                        id="displayname2"></span>, where do you want to use Buzzer?</label>
+                <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
+                            <span>
+                      <input ng-model="myForm.placeOfUsingBuzzer" id="q3b" name="q3" type="radio" value="restaurant"/>
+                      <label for="q3b" class="radio-restaurant">In my restaurant</label>
+                    </span>
+                    <span>
+                      <input ng-model="myForm.placeOfUsingBuzzer" id="q3c" name="q3" type="radio" value="cafe"/>
+                      <label for="q3c" class="radio-cafe">In my café</label>
+                    </span>
+                    <span>
+                      <input ng-model="myForm.placeOfUsingBuzzer" id="q3a" name="q3" type="radio" value="pub"/>
+                      <label for="q3a" class="radio-pub">In my pub</label>
+                    </span>
+                    <span>
+              <input id="q3d" name="q3" type="radio" value="smallchain"/>
+              <label for="q3d" class="radio-chain">Throughout my chain</label>
+            </span>
+                </div>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q4">What's your (VARIABLE) restaurant/pub/café/chain's
+                    name?</label>
+                <input ng-model="myForm.shopName" class="fs-anim-lower" id="q4" name="q4" type="text"
+                       placeholder="Type your (VARIABLE)'s name..." required/>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q5">What's your (VARIABLE) restaurant/pub/café/chain's
+                    address?</label>
+                <input ng-model="myForm.shopLocation" class="fs-anim-lower" id="q5" name="q5" type="text"
+                       onFocus="geolocate()" placeholder="Type your business address..." required></input>
+                <input ng-model="myForm.shopPostalCode" class="fs-anim-lower" id="postal_code" disabled="true"
+                       readonly></input>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q6">(IF CHAIN) How many locations do you have?</label>
+                <input ng-model="myForm.shopsLocationsQuantity" class="fs-anim-lower" id="q6" name="q6" type="number"
+                       placeholder="5" step="1" min="2" required/>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q7">Thanks! Please choose a password</label>
+                <input ng-model="myForm.password" class="fs-anim-lower" id="q7" name="q7" type="password"
+                       placeholder="Choose a password..." required/>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q8">Verify your password...</label>
+                <input ng-model="myForm.password2" class="fs-anim-lower" id="q8" name="q8" type="password" placeholder="Verify that password..."
+                       required/>
+            </li>
+        </ol>
+        <!-- /fs-fields -->
+        <button class="fs-submit" type="submit" ng-disabled="myForm.$invalid || myForm.password !== myForm.password2">Send answers</button>
+    </form>
+    <!-- /fs-form -->
+</div>
+<!-- /fs-form-wrap -->
+
+<script>
+    // This example displays an address form, using the autocomplete feature
+    // of the Google Places API to help users fill in the information.
+
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+    var placeSearch, autocomplete;
+    var componentForm = {
+        postal_code: 'short_name'
+    };
+
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('q5')),
+            {types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+    function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+
+        for (var component in componentForm) {
+            document.getElementById(component).value = '';
+            document.getElementById(component).disabled = false;
+        }
+
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressType = place.address_components[i].types[0];
+            if (componentForm[addressType]) {
+                var val = place.address_components[i][componentForm[addressType]];
+                document.getElementById(addressType).value = val;
+            }
+        }
+    }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+</script>
+
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChWfztaeQfMRYPGpMdj3O6ifKBGceJKV4&libraries=places&callback=initAutocomplete"
+        async defer></script>-->
