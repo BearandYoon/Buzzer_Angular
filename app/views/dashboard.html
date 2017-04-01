@@ -1,0 +1,481 @@
+<div class="noshad">
+    <loading-caption></loading-caption>
+    <div ng-class="loadingAnimClass">
+        <div class="modal fade in" id="disabled-modal" role="dialog" ng-show="disabledModal" style="display: block;">
+            <div class="modal-dialog modal-lg" style=" position: absolute; top:0;bottom: 0;left: 0;right: 0; margin: auto; height:20%; min-height: 200px;">
+                <div class="modal-content" style="height: 100%; min-width: 300px; width: 50%; margin:auto;">
+                    <div class="modal-header" style="text-align: center;">
+                        <button ng-click="logout()" type="button" class="close">&times;</button>
+                        <h4 class="modal-title text-warning" style="font-weight: 600; text-align: center;">Account Disabled</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 70%; text-align: center;">
+                        Your account has been automatically disabled due to {{userInfo.reason}}.
+                        <br> Please contact <a href="mailto:hello@getbuzzer.com">hello@getbuzzer.com</a> to restore account access.
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button ng-click="logout()" type="button" class="btn btn-default">Sign out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Notice  <div class="row">
+
+        <div class="col-md-12">
+          <div class="widget bg-warning-light">
+            <div class="widget-bg-icon">
+              <i class="fa fa-bookmark-o"></i>
+            </div>
+            <div class="widget-details">
+              <span class="bold">Notice: you have <u>recommendations</u> that could be acted upon to improve your NPS&reg; score</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      /notice -->
+
+        <div class="row separator">
+            <span>Snapshot</span>
+            <hr>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="widget" ng-class="weeklySnapshot.atmosphere.className">
+                    <div class="widget-icon bg-white pull-left fa fa-heart">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title white fw600">Atmosphere</span>
+                        <span class="widget-subtitle white">{{ weeklySnapshot.atmosphere.text }} the previous {{dateFilter.lastNDays}}-day period</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="widget" ng-class="weeklySnapshot.food.className">
+                    <div class="widget-icon bg-white pull-left fa fa-cutlery">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title white fw600">Food</span>
+                        <span class="widget-subtitle white">{{ weeklySnapshot.food.text }} the previous {{dateFilter.lastNDays}}-day period</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="widget" ng-class="weeklySnapshot.service.className">
+                    <div class="widget-icon bg-white pull-left fa fa-eye">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title white fw600">Service</span>
+                        <span class="widget-subtitle white">{{ weeklySnapshot.service.text }} the previous {{dateFilter.lastNDays}}-day period</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="widget" ng-class="weeklySnapshot.value.className">
+                    <div class="widget-icon bg-white pull-left fa fa-money">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title white fw600">Value</span>
+                        <span class="widget-subtitle white">{{ weeklySnapshot.value.text }} the previous {{dateFilter.lastNDays}}-day period</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row separator">
+            <span>Team and Reviews</span>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-12 col-xs-12">
+                <div class="widget-chart bg-white no-padding">
+                    <div class="text-center">
+                        <h6 class="mt30">Reviews over {{dateFilter.lastNDays}} days</h6>
+                        <div class="mt15">
+                            <h1 class="text-info">{{totalReviews}}</h1>
+                        </div>
+                        <rickshaw class="rickshaw_graph dashboard-rickshaw mt30" rickshaw-options="optionsReviews" rickshaw-features="featuresReviews" rickshaw-series="seriesReviews" style="height:133px;"></rickshaw>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-sm-12 col-xs-12">
+
+                <div class="widget-chart bg-white no-padding">
+                    <div class="absolute tp lt rt p15">
+                        <h3 class="mb0 mt0 bold">NPS<sup><small>&reg;</small></sup> score</h3>
+                        <div class="text-success">Hover over the graph to see day-by-day</div>
+                    </div>
+                    <!-- <div class="absolute tp rt pt15 pr15">
+                        <div class="text-success">
+                            <i class="fa fa-caret-up"></i>
+                            <span>6%</span>
+                        </div>
+                        <div class="small">+5</div>
+                    </div> -->
+                    <rickshaw class="rickshaw_graph dashboard-rickshaw" rickshaw-options="optionsNPS" rickshaw-features="featuresNPS" rickshaw-series="seriesNPS" style="height:133px;"></rickshaw>
+                </div>
+
+                <div class="widget" style="margin-bottom: 0; padding-left: 0;">
+
+
+                  <div class="col-xs-4 widget bg-white" style="margin:0 3% 0 0; width: 31.3%; text-align:center;" data-ng-if="activeServer">
+                      <h3 class="bold mb0">
+                        <a ui-sref="app.team.ranking({topId: activeServer._id})"
+                                   data-ng-if="hasPermission('staff')">
+{{activeServer.fname}} {{activeServer.lname | limitTo : 1}}</a></h3>
+                      <br>
+                      <h5 class="mb0 mt0">Most active server 😊</h5>
+                  </div>
+                  <div class="col-xs-4 widget bg-white" style="margin: 0 3% 0 0; width: 31.3%; text-align:center" data-ng-if="bestServer">
+                      <h3 class="bold mb0">
+                        <a ui-sref="app.team.ranking({topId: bestServer._id})"
+                                  data-ng-if="hasPermission('staff')">
+                                  {{bestServer.fname}} {{bestServer.lname | limitTo : 1}}</a></h3>
+                      <br>
+                      <h5 class="mb0 mt0">Best rated server 🏆</h5>
+                  </div>
+                  <div class="col-xs-4 widget bg-white" style="width: 31.3%; text-align:center;" data-ng-if="topNpsServer">
+                      <h3 class="bold mb0">
+                        <a ui-sref="app.team.ranking({topId: topNpsServer._id})"
+                                   data-ng-if="hasPermission('staff')">
+                                   {{topNpsServer.fname}} {{topNpsServer.lname | limitTo : 1}}</a></h3>
+                      <br>
+                      <h5 class="mb0 mt0">Highest NPS server</h5>
+                  </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row separator">
+        <span>Questions</span><span style="font-size: 87%;">Click on a question tile to view more info</span>
+        <!--<span class="text-red" data-ng-show="!validDate">Select 7/14/28 days to view periodic change</span>-->
+        <hr>
+    </div>
+
+    <!-- Questions -->
+
+    <div class="row">
+
+        <!--<div ng-if="!question.response.nResponse.lenght && !question.response.tResponse"-->
+        <!--class="col-md-12 widget bg-white">-->
+        <!--No data for last 7 days-->
+        <!--</div>-->
+        <div ng-repeat-start="question in questions | orderBy: 'index'" ng-once ng-switch="question.type" class="col-md-4 col-lg-3">
+
+            <div class="modal fade in" id="qs_modal" role="dialog" ng-show="questions.questions_modal" style="display: block">
+                <div class="modal-dialog modal-lg" style="height: 75%">
+                    <div class="modal-content" style="height: 100%">
+                        <div class="modal-header">
+                            <button ng-click="questions.questions_modal ? questions.questions_modal = false : questions.questions_modal = true" type="button" class="close" data-dismiss="questions.questions_modal">&times;</button>
+                            <h4 class="modal-title">Q{{questions.modalIndex + 1}}: {{questions[questions.modalIndex]
+                                    .question}}</h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 70%; overflow-y: scroll">
+                            <table class="table table-bordered table-hover table-condensed align-middle" ng-show="showTableInModal">
+                                <thead class="org-grad">
+                                    <tr class="bold">
+                                        <td class="noborder" style="width:15%">Date <span style="caret"></span></td>
+                                        <td class="noborder" style="width:35%">Response</td>
+                                        <td class="noborder" style="width:30%">Email Address</td>
+                                        <td class="noborder" style="width:10%">NPS</td>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="n in [] | range:questions[questions.modalIndex].response._created_at.length">
+                                    <td>{{questions[questions.modalIndex].response._created_at[n] | limitTo: 10 }}</td>
+                                    <td ng-switch="questions[questions.modalIndex].type">
+                                        <span ng-switch-when="s">
+                                            <i class="fa fa-star" aria-hidden="true" ng-show="questions[questions.modalIndex].response.nResponse[n]>=1"></i>
+                                            <i class="fa fa-star" aria-hidden="true" ng-show="questions[questions.modalIndex].response.nResponse[n]>=2"></i>
+                                            <i class="fa fa-star" aria-hidden="true" ng-show="questions[questions.modalIndex].response.nResponse[n]>=3"></i>
+                                            <i class="fa fa-star" aria-hidden="true" ng-show="questions[questions.modalIndex].response.nResponse[n]>=4"></i>
+                                            <i class="fa fa-star" aria-hidden="true" ng-show="questions[questions.modalIndex].response.nResponse[n]>=5"></i>
+                                        </span>
+                                        <span ng-switch-default>
+                                            {{questions[questions.modalIndex].response.tResponse[n]}}
+                                        </span>
+                                    </td>
+                                    <td>{{questions[questions.modalIndex].response.emails[n]}}</td>
+                                    <td>{{questions[questions.modalIndex].response.nps[n]}}</td>
+                                </tr>
+                            </table>
+                            <rickshaw class="rickshaw_graph dashboard-rickshaw" rickshaw-options="optionsModalGraph" rickshaw-features="featuresModalGraph" rickshaw-series="seriesModalGraph" recalculate-height="true" ng-hide="!showGraphInModal || showTableInModal"></rickshaw>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-info" ng-hide="!showGraphInModal || showTableInModal" ng-click="showTableInModal=true">Show Table</button>
+                            <button class="btn btn-sm btn-info" ng-show="showGraphInModal && showTableInModal" ng-click="showTableInModal=false;resize()">Show Graph</button>
+                            <button ng-click="questions.questions_modal ? questions.questions_modal = false : questions.questions_modal = true" type="button" class="btn btn-default" data-dismiss="questions.questions_modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-switch-when="s" class="widget bg-white question cursor-pointer">
+                <div class="col-md-2 pl0">
+                    <h3 class="mb0 mt0 bold">Q{{$index + 1}}<br>
+                           <!-- <div class="text-success mt15">
+                                <i class="fa fa-caret-up"></i>
+                                <span>1<i class="fa fa-star" aria-hidden="true"></i></span>
+                            </div> -->
+                        </h3>
+                </div>
+                <div class="col-md-10 pl0 pr0 qtit" ng-click="toggleQuestionsModal($index)">
+                    <div style="float: right; text-align: center; margin-left: 5%;">
+                        <span style="float: left; background-color: #efefef; border-radius: 50%; padding: 4px; font-weight: 600; color: #000;">{{question.foreverSummaryResponse.toFixed(1)}}</span>
+                        <span style="float: left; text-align: left; padding-left: 5px; padding-top:5px; line-height: 110%; font-weight: 600; font-size: 60%;">ALL-TIME<br>AVERAGE</span>
+                    </div>
+                    {{question.question}}
+                    <br>
+                    <h3 style="float:left;" class="text-xs-center inline">
+                            <i class="fa fa-star" aria-hidden="true" ng-show="question.summaryResponse>0.75"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="question.summaryResponse>1.75"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="question.summaryResponse>2.75"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="question.summaryResponse>3.75"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="question.summaryResponse>4.75"></i>
+                            <i class="fa fa-star-half" aria-hidden="true" ng-show="question.summaryResponse - Math.floor(question.summaryResponse) >= 0.25 && question.summaryResponse - Math.floor(question.summaryResponse) <= 0.75"></i>
+                            <span ng-if="!question.response.nResponse.length" >No data for last 7 days</span>
+                        </h3>
+                    <span style="float:right;" data-ng-show="question.increase === true && question.summaryResponse !== -1" class="text-success question-change">
+                            <i class="fa fa-caret-up"></i>
+                            <span class="question-change-size">
+                                <span class="question-change-direction-text"></span>
+                    <span class="question-change-number">{{question.change}}</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                    <span style="float:right;" data-ng-show="question.increase === false && question.summaryResponse !== -1" class="text-red question-change">
+                            <i class="fa fa-caret-down"></i>
+                            <span class="question-change-size">
+                                <span class="question-change-direction-text"></span>
+                    <span class="question-change-number">{{question.change}}</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                    <span style="float:right;" data-ng-show="question.increase === 'NO' && question.summaryResponse !== -1" class="question-change">
+                            <span class="question-change-size question-no-change">
+                            <span class="question-change-text-no-change">NO CHANGE</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                </div>
+            </div>
+
+            <div ng-switch-when="m" class="widget bg-white question cursor-pointer">
+                <div class="col-md-2 pl0">
+                    <h3 class="mb0 mt0 bold">Q{{$index + 1}}<br>
+                          <!--  <div class="text-success mt15"><i class="fa fa-caret-up"></i> <span>6%</span></div>
+                       --> </h3>
+                </div>
+
+                <div class="col-md-10 pl0 qtit" ng-click="toggleQuestionsModal($index)">{{question.question}}<br>
+                    <flot dataset="[{data: question.summaryResponse, bars: barFood}]" ng-if="question.summaryResponse.length" options="barOptions" class="chart text-xs-center" height="56"></flot>
+                    <h3 ng-if="!question.response.nResponse.length" class="text-xs-center">No data for last 7 days</h3>
+                </div>
+            </div>
+
+            <div ng-switch-when="n" class="widget bg-white question cursor-pointer">
+                <div class="col-md-2 pl0">
+                    <h3 class="mb0 mt0 bold">Q{{$index + 1}}<br>
+                          <!--  <div class="text-warning mt15"><i class="fa fa-caret-down"></i> <span>2</span></div>
+                        --></h3>
+                </div>
+                <div class="col-md-10 pl0 qtit" ng-click="toggleQuestionsModal($index)">
+                    <div style="float: right; text-align: center; margin-left: 5%;">
+                        <span style="float: left; background-color: #efefef; border-radius: 50%; padding: 4px; font-weight: 600; color: #000;">{{question.foreverSummaryResponse.toFixed(1)}}</span>
+                        <span style="float: left; text-align: left; padding-left: 5px; padding-top:5px; line-height: 110%; font-weight: 600; font-size: 60%;">ALL-TIME<br>AVERAGE</span>
+                    </div>
+                    {{question.question}}
+                    <br>
+                    <h3 ng-if="question.summaryResponse !== -1" class="text-xs-center inline"><strong>{{question
+                            .summaryResponse}}</strong> / 10</h3>
+                    <h3 ng-if="question.summaryResponse === -1" class="text-xs-center">No data for last 7 days</h3>
+                    <span data-ng-show="question.increase === true && question.summaryResponse !== -1" class="text-green question-change">
+                            <i class="fa fa-caret-up"></i>
+                            <span class="question-change-size">
+                                <span class="question-change-direction-text">UP</span>
+                    <span class="question-change-number">{{question.change}}</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                    <span data-ng-show="question.increase === false && question.summaryResponse !== -1" class="text-red question-change">
+                            <i class="fa fa-caret-down"></i>
+                            <span class="question-change-size">
+                                <span class="question-change-direction-text">DOWN</span>
+                    <span class="question-change-number">{{question.change}}</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                    <span data-ng-show="question.increase === 'NO' && question.summaryResponse !== -1" class="question-change">
+                            <span class="question-change-size question-no-change">
+                            <span class="question-change-text-no-change">No Change</span>
+                    <span class="question-change-direction-text-below">ON PREVIOUS<br>{{dateFilter.lastNDays}}-DAY PERIOD</span>
+                    </span>
+                    </span>
+                </div>
+            </div>
+
+            <div ng-switch-when="t" class="widget bg-white t-question cursor-default">
+                <div class="col-md-2 pl0">
+                    <h3 class="mb0 mt0 bold">Q{{$index + 1}}
+                        </h3>
+                </div>
+                <div class="col-md-10 pl0 qtit">{{question.question}}<br>
+                    <h3 class="mb2" ng-model="modal">
+                            <span ng-if="!question.summaryResponse.length" style="font-size: 75%;"><em>Please check the "<a style="border-bottom: 1px dotted #000;" ui-sref="app.social.promote">Promote</a>" tab</em></span>
+                            <div ng-if="question.summaryResponse.length" class="text-xs-center">
+                                <button type="button"
+                                        data-toggle="modal"
+                                        data-target="#modal"
+                                        class="btn btn-primary btn-outline btn-round"
+                                        ng-click="modal ? modal = false : modal = true">Click here to read</button>
+
+                                <div class="modal fade in" id="modal" role="dialog" ng-show="modal" style="display: block">
+                                    <div class="modal-dialog modal-lg" style="height: 75%">
+                                        <div class="modal-content" style="height: 100%">
+                                            <div class="modal-header">
+                                                <button ng-click="modal ? modal = false : modal = true"
+                                                        type="button"
+                                                        class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Q{{$index + 1}}: {{question.question}}</h4>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 70%; overflow-y: scroll">
+                                                <p class="answers" style="display:block; font-size: 80%; margin-top: 1em;" ng-repeat="answer in question.summaryResponse track by $index">{{answer.text}}</p>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                              <span style="float: left; font-size: 70%; color: #2ECC63;"><em>For more responses, check out the "<a style="border-bottom: 1px dotted #2ECC63;" ui-sref="app.social.promote">Promote</a>" tab</em></span>
+                                              <button
+                                                  class="btn btn-default"
+                                                  type="button"
+                                                  ng-csv="question.summaryResponse"
+                                                  csv-header="['Export of responses from your Buzzer dashboard']"
+                                                  filename="Buzzer-export.csv"
+                                              >Download CSV</button>
+
+                                                <button ng-click="modal ? modal = false : modal = true"
+                                                        type="button"
+                                                        class="btn btn-default"
+                                                        data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </h3>
+                </div>
+            </div>
+
+        </div>
+        <div ng-repeat-end class="row separator" ng-if="($window.innerWidth >= 992 && $window.innerWidth < 1200) ? ($index + 1) % 3 === 0 && $index !== 0 : ($index + 1) % 4 === 0 && $index !== 0"></div>
+
+    </div>
+
+
+    <div class="row separator">
+        <span>Weekly stats</span> <span class="text-warning" data-ng-show="!validDate">Select '7 days' to view weekly stats</span>
+        <hr>
+    </div>
+
+    <div class="row" ng-if="validDate">
+
+        <!-- <div class="col-md-4">
+                <section>
+                    <div class="widget bg-white">
+                        <div class="widget-icon bg-primary pull-left fa fa-star">
+                        </div>
+                        <div class="overflow-hidden">
+                            <span class="widget-title">6 days in a row!</span>
+                            <span class="widget-subtitle">Visit every day to improve your streak</span>
+                        </div>
+                    </div>
+                </section>
+            </div> -->
+
+        <div class="col-md-4">
+            <section>
+                <div class="widget bg-white">
+                    <div class="widget-icon bg-success pull-left fa" ng-class="['fa-arrow-', reviews.upDown].join('')">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title percent">Reviews {{reviews.upDown}} <strong>{{reviews.number}}</strong></span>
+                        <span class="widget-subtitle">Compared with the same period last week</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <div class="col-md-4">
+            <section>
+                <div class="widget bg-white">
+                    <div class="widget-icon bg-lightblue pull-left fa fa-smile-o">
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="widget-title percent">Response rate: <strong>{{rate}}</strong></span>
+                        <span class="widget-subtitle">Based on your estimated footfall</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+  <!--  <div class="row separator">
+        <span>Miscellaneous</span>
+        <hr>
+    </div>
+
+    <div class="row">
+     <div class="col-md-3">
+                <section class="widget bg-lightblue text-center">
+                    <div class="widget-details">
+                        <h2 class="no-margin bold">17&#176;C</h2>
+                        <small class="text-uppercase">Islington, London</small>
+                    </div>
+                    <div class="widget-details">
+                        <div class="climacon cloud rain sun fa-4x"></div>
+                    </div>
+                </section>
+            </div>
+    -->
+        <!--
+            <div class="col-md-6">
+              <section class="widget bg-white text-center">
+                <div class="widget-details col-xs-4">
+                  <h2 class="no-margin">13</h2>
+                  <small class="text-uppercase">Recommendations</small>
+                </div>
+                <div class="widget-details col-xs-4">
+                  <h2 class="no-margin">2</h2>
+                  <small class="text-uppercase">In progress</small>
+                </div>
+                <div class="widget-details col-xs-4">
+                  <h2 class="no-margin">28</h2>
+                  <small class="text-uppercase">Enacted</small>
+                </div>
+              </section>
+            </div>
+
+          -->
+
+    </div>
+</div>
+</div>
