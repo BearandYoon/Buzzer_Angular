@@ -1,0 +1,7 @@
+<div data-ng-controller="outletSelectionCtrl as ctx">
+    <ul>
+        <li data-ng-repeat="o in ctx.list" data-ng-click="ctx.onChoose(o)">
+            {{o}}
+        </li>
+    </ul>
+</div>
