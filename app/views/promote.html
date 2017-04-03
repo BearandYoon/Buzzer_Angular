@@ -1,0 +1,47 @@
+<div ng-controller="promoteController" class="promote-page">
+    <loading-caption></loading-caption>
+    <div class="panel" ng-class="loadingAnimClass">
+        <div class="panel-body" infinite-scroll="loadFeedback()" infinite-scroll-disabled="busy">
+            <table class="table table-bordered table-hover table-condensed align-middle" style="min-width: 100%; width: auto; max-width: none;">
+                <tr class="bold" style="overflow: scroll;">
+                    <td style="width:10%">Date</td>
+                    <td style="width:80%">Comment</td>
+                    <td style="width:10%">Publish</td>
+                </tr>
+                <tr ng-repeat="feedback in feedbacks | orderBy: '_created_at':true"
+                    ng-if="feedback.type === 't' && !vaildateEmail(feedback.tResponse) && feedback.tResponse !== ''">
+                    <td>{{getDate(feedback._created_at)}}</td>
+                    <td class="answers">"{{feedback.tResponse}}"</td>
+                    <td><button type="button" class="btn btn-primary btn-outline btn-round"
+                                analytics-on="click" analytics-event="Export JPEG"
+                                ng-click="export(feedback.tResponse, getDate(feedback._created_at))">Export JPEG</button></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <style>
+        .img-export {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        canvas {
+            width: 100% !important;
+        }
+    </style>
+    <div class="modal fade in" id="modal" role="dialog" ng-show="modal" style="display: block">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="height: 100%">
+                <div class="modal-header" style="padding-bottom: 0; border-bottom: none;">
+                    <a type="button" class="btn btn-default download-btn btn-info" about="_blank" data-dismiss="modal">Download this image</a>
+                    <a ng-click="closeModal()" data-dismiss="modal" type="button" class="btn btn-default download-btn" style="float:right;" about="_blank" data-dismiss="modal">Close</a>
+                </div>
+                <div class="modal-body" style="padding: 0; margin: -6% 0 -4% 0;">
+                    <img src="../images/users/{{outlet.name}}/dashboard_quote_blank.png" ng-hide="isModalOpen" class="img-export" alt="comment JPEG">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
