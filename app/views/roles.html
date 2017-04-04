@@ -1,0 +1,26 @@
+<form class="form-horizontal" data-ng-controller="rolesController as ctr">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Role Type:</label>
+        <div class="col-sm-4">
+            <select ng-model="ctr.selectedRole" ng-options='t.name for t in ctr.roles' class="form-control">
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Permissions:</label>
+        <br/>
+        <div class="col-sm-4">
+            <div data-ng-repeat="p in ctr.permissions">
+                <div class="checkbox">
+                    <input type="checkbox" data-ng-model="ctr['selectedPerm' + $index]" data-ng-checked="ctr.hasPermission(p)" 
+                    data-ng-change="ctr.toggle(p)">{{p}}</input>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wizard-pager">
+        <div class="pull-left">
+            <div data-spinner-button="" data-on-saving="ctr.save()" data-processed="ctr.processed" data-text="Roles Updated!"></div>
+        </div>
+    </div>
+</form>
