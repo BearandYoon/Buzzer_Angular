@@ -1,0 +1,25 @@
+<div ng-controller="dataRawController">
+    <loading-caption></loading-caption>
+
+    <div class="panel" ng-class="loadingAnimClass">
+        <div class="panel-body" infinite-scroll="getAllData()" infinite-scroll-disabled="busy">
+            <table class="table table-bordered table-hover table-condensed align-middle" style="min-width: 100%;
+            width: auto; max-width: none;">
+                <tr class="bold" style="overflow: scroll;">
+                    <td style="width:10%">Date</td>
+                    <td style="width:10%">Time</td>
+                    <td style="width:40%">Question</td>
+                    <td style="width:30%">tResponse</td>
+                    <td style="width:10%">Survey ID</td>
+                </tr>
+                <tr ng-repeat="feedback in feedbacks | orderBy: '_created_at':true   ">
+                    <td>{{getDate(feedback._created_at).date}}</td>
+                    <td>{{getDate(feedback._created_at).time}}</td>
+                    <td>{{feedback.question}}</td>
+                    <td>{{feedback.tResponse}}</td>
+                    <td>{{feedback.formID | limitTo: 11 }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
