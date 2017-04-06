@@ -1,0 +1,9 @@
+<div>
+    <div>
+        <span class="text-success" data-ng-if="processed">{{text || 'Information Updated'}}</span>
+    </div>
+    <button type="button" data-ng-click="onButtonClicked()" class="btn btn-primary">
+        <span class="process-loading" data-ng-if="processing"></span>
+        <span>Submit </span>
+    </button>
+</div>
