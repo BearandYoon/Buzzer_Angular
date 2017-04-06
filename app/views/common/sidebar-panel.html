@@ -1,0 +1,152 @@
+<div class="brand">
+
+    <!-- logo -->
+    <div class="brand-logo">
+        <img data-ng-src="images/logo.png" height="15" alt="">
+    </div>
+    <!-- /logo -->
+
+    <!-- toggle small sidebar menu -->
+    <a href="javascript:;" class="toggle-sidebar hamburger-icon v3" data-ng-click="app.layout.isSmallSidebar = !app.layout.isSmallSidebar; app.layout.isMobileSidebar = !app.layout.isMobileSidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </a>
+    <!-- /toggle small sidebar menu -->
+
+</div>
+
+<!-- main navigation -->
+<nav role="navigation" side-navigation>
+
+    <ul class="nav">
+
+        <!-- dashboard -->
+        <li ui-sref-active="active" data-ng-if="hasPermission('dashboard')">
+            <a ui-sref="app.dashboard">
+                <i class="fa fa-tachometer"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- /dashboard -->
+        <li data-ng-class="{open: $state.includes('app.customer.care')}" data-ng-if="hasPermission('customercare')">
+            <a ui-sref="app.customer.care">
+                <i class="fa fa-user"></i>
+                <span>Customer care</span>
+            </a>
+        </li>
+
+        <li data-ng-class="{open: $state.includes('app.team')}" data-ng-if="hasPermission('staff')">
+            <a ui-sref="app.team.ranking">
+                <i class="fa fa-users"></i>
+                <span>Staff</span>
+            </a>
+        </li>
+
+
+        <li data-ng-class="{open: $state.includes('app.social')}" data-ng-if="hasPermission('promote')">
+            <a ui-sref="app.social.promote">
+                <i class="fa fa-bullhorn"></i>
+                <span>Promote</span>
+            </a>
+        </li>
+
+        <!-- ToD analysis
+    <li ui-sref-active="active">
+        <a ui-sref="app.charts.chartjs">
+        <i class="fa fa-clock-o"></i>
+        <span>Time of Day analysis</span>
+      </a>
+    </li>
+
+  /ToD -->
+
+
+
+        <!-- maps
+        <li data-ng-class="{open: $state.includes('app.customer.map')}">
+            <a ui-sref="app.customer.map">
+                <i class="fa fa-map-marker"></i>
+                <span>Customer map</span>
+            </a>
+        </li>
+      /maps -->
+
+
+        <li ui-sref-active="active" data-ng-if="hasPermission('news')">
+            <a ui-sref="app.apps.social">
+                <i class="fa fa-newspaper-o"></i>
+                <span>News</span>
+                <!-- <span class="label label-success pull-right">6</span> -->
+            </a>
+        </li>
+        <!-- settings -->
+        <li class="menu-accordion open">
+
+            <a href="javascript:;">
+                <i class="fa fa-cog" style="color: #8f8f8f !important;"></i>
+                <span style="color: #8f8f8f !important;">Settings</span>
+            </a>
+
+            <ul class="sub-menu">
+
+                <li ui-sref-active="active" data-ng-if="hasPermission('settings')">
+                    <a ui-sref="app.settings.config">
+                        <i class="fa fa-cog"></i>
+                        <span>My restaurant</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" data-ng-if="hasPermission('roles')">
+                    <a ui-sref="app.settings.roles-sa">
+                        <i class="fa fa-cog"></i>
+                        <span>Roles <sup class="text-success"> <em>Coming soon!</em></sup></span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" data-ng-if="hasPermission('users')">
+                    <a ui-sref="app.settings.users-sa">
+                        <i class="fa fa-cog"></i>
+                        <span>Users <sup class="text-success"> <em>Coming soon!</em></sup></span>
+                    </a>
+                </li>
+                <li data-ng-class="{open: $state.includes('app.data')}" data-ng-if="hasPermission('rawdata')">
+                    <a ui-sref="app.data.raw">
+                        <i class="fa fa-database"></i>
+                        <span>Raw data</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- /settings -->
+
+
+
+        <!--
+        <li ui-sref-active="active">
+            <a ui-sref="app.documentation">
+                <i class="fa fa-question"></i>
+                <span>Help</span>
+            </a>
+        </li>
+      /documentation -->
+        <!--lock-->
+        <li ui-sref-active="active">
+            <a ng-click="lock()">
+                <i class="fa fa-lock"></i>
+                <span>Lock</span>
+            </a>
+        </li>
+        <!--/lock-->
+        <!--logout-->
+        <li ui-sref-active="active">
+            <a ui-sref="#" ng-click="logout()">
+                <i class="fa fa-sign-out"></i>
+                <span>Sign out</span>
+            </a>
+        </li>
+        <!-- /logout -->
+
+    </ul>
+</nav>
+<!-- /main navigation -->

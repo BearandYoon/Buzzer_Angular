@@ -1,0 +1,137 @@
+<span data-ng-controller="dateFillterCtrl">
+  <div class="brand visible-sm visible-xs">
+
+    <div class="toggle-offscreen">
+      <offscreen class="visible-xs"></offscreen>
+    </div>
+
+    <div class="hamburger-icon v3" data-ng-click="app.layout.isMobileSidebar = !app.layout.isMobileSidebar">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="brand-logo">
+      <img data-ng-src="images/logo-dark.png" height="15" alt="">
+    </div>
+
+    <a ui-sref="#" ng-click="logout()" class="signout-icon">
+        <i class="fa fa-sign-out"></i>
+    </a>
+    <a href="javascript:void(0);" data-ng-click="toggleDatePicker($event)" class="calendar-icon">
+      <i class="fa fa-calendar "></i>
+    </a>
+    <div>
+      <div data-ng-show="true" class="datepicker-wrapper">
+        <input datepicker-popup="MM-dd-yyyy" datepicker-options="datepickerOptions"
+               ng-model="data.date"
+               is-open="data.opened" max-date="data.maxDate" data-show-button-bar="false" />
+      </div>
+    </div>
+    <p class="navbar-text">
+      {{$state.current.data.title}}
+    </p>
+  </div>
+
+  <ul class="nav navbar-nav hidden-sm hidden-xs">
+    <li>
+      <p class="navbar-text">
+        {{$state.current.data.title}}
+      </p>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
+
+    <li class="datebuttons-wrapper">
+      <button type="button" class="btn btn-sm btn-info date-button" ng-click="setDay(7)">7 Days</button>
+      <button type="button" class="btn btn-sm btn-info date-button" ng-click="setDay(14)">14 Days</button>
+      <button type="button" class="btn btn-sm btn-info date-button" ng-click="setDay(28)">28 Days</button>
+    </li>
+    <li>
+        <input date-range-picker name="filterDate" class="form-control date-picker" type="text" ng-model="filterDate" options="{alwaysShowCalendars: true}"/>
+    </li>
+    <li>
+        <a href="javascript:void(0); ">
+            Currently showing data for the last <strong>{{dateFilter.lastNDays}}</strong> days
+        </a>
+    </li>
+
+    <li>
+        <a href="javascript:; " quick-launch>
+            <i class="fa fa-arrow-up "></i>
+        </a>
+    </li>
+
+      <!--alert dropdown  <li class="dropdown " dropdown>
+      <a href="javascript:; " class="dropdown-toggle " dropdown-toggle>
+        <i class="fa fa-bell-o "></i>
+        <div class="status bg-danger border-danger animated bounce "></div>
+      </a>
+      <ul class="dropdown-menu notifications ">
+        <li class="notifications-header ">
+          <p class="text-muted small ">You have 2 new messages</p>
+        </li>
+        <li>
+          <ul class="notifications-list ">
+            <li>
+              <a href="javascript:; ">
+                <span class="pull-left mt2 mr15 ">
+                  <img data-ng-src="images/user/logo.jpg " class="avatar avatar-xs img-circle " alt=" ">
+                </span>
+                <div class="overflow-hidden ">
+                  <span>You just received new feedback!</span>
+                  <span class="time ">9 seconds ago</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#/news/feed ">
+                <div class="pull-left mt2 mr15 ">
+                  <div class="circle-icon bg-danger ">
+                    <i class="fa fa-chain-broken "></i>
+                  </div>
+                </div>
+                <div class="overflow-hidden ">
+                  <span>Weekly news from Buzzer</span>
+                  <span class="time ">2 days ago</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="notifications-footer ">
+          <a href="javascript:; ">See all messages</a>
+        </li>
+      </ul>
+    </li> -->
+
+      <li class="dropdown " dropdown>
+        <a href="javascript:; " class="dropdown-toggle " dropdown-toggle>
+          <img data-ng-src="/images/logo/{{outlet.logo}} " class="header-avatar img-circle ml10 " alt="user "
+               title="user ">
+          <span class="pull-left ">
+          {{outlet.name}}
+        </span>
+        </a>
+        <ul class="dropdown-menu ">
+          <!-- settings link  <li>
+          <a href="#/settings/ ">Settings</a>
+        </li> -->
+          <li>
+            <a href="#/news/feed ">
+              <span>News</span>
+            </a>
+          </li>
+          <li>
+            <a href="#/help ">Help</a>
+          </li>
+          <li>
+            <a ng-click="logout() ">Sign out</a>
+          </li>
+        </ul>
+
+      </li>
+
+  </ul>
+</span>

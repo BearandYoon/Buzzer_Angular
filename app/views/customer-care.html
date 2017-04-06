@@ -1,0 +1,159 @@
+<div ng-controller="mapCtrl">
+    <loading-caption></loading-caption>
+    <div ng-class="loadingAnimClass">
+        <div class="modal fade in" id="emails_modal" role="dialog" ng-show="emailData.emails_modal"
+             style="display: block">
+            <div class="modal-dialog modal-lg" style="height: 75%">
+                <div class="modal-content" style="height: 100%">
+                    <div class="modal-header">
+                        <button ng-click="emailData.emails_modal = !emailData.emails_modal" type="button" class="close"
+                                data-dismiss="emailData.emails_modal">&times;</button>
+                        <h4 class="modal-title">Email Logs</h4>
+                    </div>
+                    <div class="modal-body" style="max-height: 70%; overflow-y: scroll">
+                        <table class="table table-bordered table-hover table-condensed align-middle">
+                            <thead class="org-grad">
+                            <tr class="bold">
+                                <td class="noborder" style="width:15%">Date <span></span></td>
+                                <td class="noborder" style="width:30%">Email Address</td>
+                                <td class="noborder" style="width:10%">Content</td>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="email in emailData.logs | filter:{type: emailData.emails_modal_type}">
+                                <td>{{ email._created_at }}</td>
+                                <td>{{email.toEmail}}
+                                </td>
+                                <td style="max-height: 150px; display: block; overflow: auto">{{email.content}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="emailData.emails_modal = !emailData.emails_modal" type="button" class="btn btn-default"
+                                data-dismiss="emailData.emails_modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <!--email table temp hide
+        <table class="table table-bordered table-hover table-condensed align-middle" style="min-width: 100%; width: auto; max-width: none;">
+            <tbody>
+            <tr class="bold" style="overflow: scroll;">
+                <td style="width:30%">Customer category</td>
+                <td style="width:10%">Emails active?</td>
+                <td style="width:15%">Email text</td>
+                <td style="width:10%">Public review referrals</td>
+                <td style="width:10%">Views</td>
+                <td style="width:15%">Auto-emails sent</td>
+                <td style="width:10%">Read email logs</td>
+            </tr>
+            <tr>
+                <td><strong class="text-warning" style="font-weight: 800; font-size: 120%;">😡 Detractor</strong></td>
+                <td><label class="switch switch-sm mb15" for="toggle-0"><input type="checkbox" id="toggle-0" ng-checked="team.active" checked="checked">
+                    <span> <i class="handle"></i> </span>
+                </label>
+                </td>
+                <td><button type="button" class="btn btn-black btn-outline btn-round" disabled="">Edit</button></td>
+                <td><em>Disabled</em></td>
+                <td>{{emailData.detractor.viewCount}}</td>
+                <td>{{emailData.detractor.totalCount}}</td>
+                <td><button type="button" class="btn btn-black btn-outline btn-round"
+                            data-ng-click="emailData.emails_modal = true;emailData.emails_modal_type = 'detractor';">Logs
+                </button></td>
+            </tr>
+
+
+            <tr>
+                <td><strong class="text-success" style="font-weight: 800; font-size: 120%;">😀 Promoter</strong></td>
+
+                <td><label class="switch switch-sm mb15" for="toggle-1"><input type="checkbox" id="toggle-1" ng-checked="team.active" checked="checked">
+                    <span> <i class="handle"></i> </span>
+                </label>
+                </td>
+
+                <td><button type="button" class="btn btn-black btn-outline btn-round" disabled="">Edit</button></td>
+                <td>
+                    <a class="fa fa-google-plus"></a>&nbsp;&nbsp;{{emailData.promoter.googleCount}}<br>
+                    <a class="fa fa-tripadvisor"></a>&nbsp;&nbsp;{{emailData.promoter.tripAdvisorCount}}</td>
+                <td>{{emailData.promoter.viewCount}}</td>
+                <td>{{emailData.promoter.totalCount}}</td>
+                <td><button type="button" class="btn btn-black btn-outline btn-round"
+                            data-ng-click="emailData.emails_modal = true;emailData.emails_modal_type = 'promoter';">Logs
+                </button></td>
+            </tr>
+            </tbody>
+        </table>
+      -->
+        <div class="col md12">
+            <div class="widget bg-grey-grad" style="font-size:110%; font-weight: 600;">Our Customer Care algorithm uses the Net Promoter System&reg;, which you can <a style="border-bottom: 1px dotted;" href="http://www.netpromotersystem.com/about/measuring-your-net-promoter-score.aspx" target="_blank">read more about here</a></div>
+        </div>
+        <div>
+            <button class="btn btn-info" type="button" ng-csv="allCommentsCSV" csv-header="['Category', 'Rating', 'Email', 'Comment']" filename="Customer-Care-All.csv" style="margin: auto;display: block; font-weight: 600;">Download a CSV spreadsheet of this customer data</button>
+        </div>
+        <br>
+        <div style="text-align:center; border-radius: 9px; padding: 1%; float:left; position: relative;" class="col-sm-12 col-md-4">
+            <h3 style="background-image: linear-gradient(to right,#ffa600,#fcca65); -webkit-background-clip: text; margin: 0; font-weight: 600;">Detractors 😡</h3><span class="nps-persona">I am probably not a happy customer</span>
+            <div>
+                <button class="btn btn-warning btn-xs" type="button" ng-csv="detractorsCSV" csv-header="['Category', 'Rating', 'Email', 'Comment']" filename="Customer-Care-detractors.csv" style="margin: 8px auto; font-weight: 600;">Download CSV</button>
+            </div>
+            <table style="table-layout: fixed;word-wrap:break-word !important;" class="table table-bordered table-hover table-condensed align-middle">
+
+                <tr class="bold">
+                    <td style="width:20%">Rating <span style="caret"></span></td>
+                    <td style="width:30%;">Email</td>
+                    <td style="width:50%">Comment</td>
+                </tr>
+
+                <tr ng-repeat="detractor in detractors | orderBy: 'metric._created_at':true" ng-if="detractor.comment.tResponse !== '' || detractor.email.tResponse !== ''">
+                    <td><span style="font-weight: 800; font-size: 120%" class="text-warning">{{detractor.metric.nResponse}}</span><span style="font-size:70%">/10</span></td>
+                    <td><a style="border-bottom: 1px dotted #ababab; font-size: 80%;" href="mailto:{{detractor.email.tResponse}}">{{detractor.email.tResponse}}
+                        </a><span style="font-size: 80%;" ng-if="detractor.email.tResponse ==''"><em>No email address provided</em></span></td>
+                    <td style="text-align:left;" class="answers">{{detractor.comment.tResponse}}<span style="font-size: 80%;" ng-if="detractor.comment.tResponse ==''"><em>No comment provided</em></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="text-align:center; border-radius: 9px; padding: 1%; float:left;" class="col-sm-12 col-md-4">
+            <h3 style="background-image: linear-gradient(to right,#ffa600,#fcca65); -webkit-background-clip: text; margin: 0; font-weight: 600;">Passives 😐</h3><span class="nps-persona">I am satisfied, but I could go somewhere else</span>
+            <div>
+                <button class="btn btn-primary btn-xs" type="button" ng-csv="passivesCSV" csv-header="['Category', 'Rating', 'Email', 'Comment']" filename="Customer-Care-passives.csv" style="margin: 8px auto;display: block; font-weight: 600;">Download CSV</button>
+            </div>
+            <table style="table-layout: fixed;word-wrap:break-word !important;" class="table table-bordered table-hover table-condensed align-middle">
+                <tr class="bold">
+                    <td style="width:20%">Rating <span style="caret"></span></td>
+                    <td style="width:30%;">Email</td>
+                    <td style="width:50%">Comment</td>
+                </tr>
+                <tr ng-repeat="passive in passives | orderBy: 'metric._created_at':true" ng-if="passive.comment.tResponse !== ''|| passive.email.tResponse !== ''">
+                    <td><span style="font-weight: 800; font-size: 120%; color: #ffa600;">{{passive.metric.nResponse}}</span><span style="font-size:70%">/10</span></td>
+                    <td><a style="border-bottom: 1px dotted #ababab; font-size: 80%;" href="mailto:{{passive.email.tResponse}}">{{passive.email.tResponse}}
+                    </a><span style="font-size: 80%;" ng-if="passive.email.tResponse ==''"><em>No email address provided</em></span></td>
+                    <td style="text-align:left;" class="answers">{{passive.comment.tResponse}}
+                        <span style="font-size: 80%;" ng-if="passive.comment.tResponse ==''"><em>No comment provided</em></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="text-align:center; border-radius: 9px; padding: 1%; display:inline-block;" class="col-sm-12 col-md-4">
+            <h3 style="margin: 0; font-weight: 600; background-image: linear-gradient(to right,#ffa600,#fcca65); -webkit-background-clip: text;">Promoters 😀</h3><span class="nps-persona">I am an enthusiastic fan and would probably refer people</span>
+            <div>
+                <button class="btn btn-success btn-xs" type="button" ng-csv="promotersCSV" csv-header="['Category', 'Rating', 'Email', 'Comment']" filename="Customer-Care-promoters.csv" style="margin: 8px auto;display: block; font-weight:600;">Download CSV</button>
+            </div>
+            <table style="table-layout: fixed;word-wrap:break-word !important;" class="table table-bordered table-hover table-condensed align-middle">
+                <tr class="bold">
+                    <td style="width:20%">Rating <span style="caret"></span></td>
+                    <td style="width:30%;">Email</td>
+                    <td style="width:50%">Comment</td>
+                </tr>
+                <tr ng-repeat="promoter in promoters | orderBy: 'metric._created_at':true" ng-if="promoter.comment.tResponse !== '' || promoter.email.tResponse !== ''">
+                    <td><span style="font-weight: 800; font-size: 120%;" class="text-success">{{promoter.metric.nResponse}}</span><span style="font-size:70%">/10</span></td>
+                    <td><a style="border-bottom: 1px dotted #ababab; font-size: 80%;" href="mailto:{{promoter.email.tResponse}}">{{promoter.email.tResponse}}</a>
+                        <span style="font-size: 80%;" ng-if="promoter.email.tResponse == ''"><em>No email address provided</em></span></td>
+                    <td style="text-align:left;" class="answers">{{promoter.comment.tResponse}}
+                        <span style="font-size: 80%;" ng-if="promoter.comment.tResponse ==''"><em>No comment provided</em></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

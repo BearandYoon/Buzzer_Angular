@@ -1,0 +1,263 @@
+<style>
+    body {
+        height: 100vh;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        min-height: 100%;
+        padding: 20px;
+        /* background-image: radial-gradient(#FFC371, #FF5F6D); */
+        background-image: radial-gradient(#4f4f4f, #0a0a0a);
+        /*  background-image: radial-gradient(#ffb151, #ff9064); */
+        /*    box-shadow: inset 0 0 100px rgba(0,0,0,.6); */
+        background-size: cover;
+    }
+
+    .login, .forgot, .reset, .reset-success {
+        border-radius: 15px;
+        padding: 24px;
+        width: 90%;
+        max-width: 320px;
+        background: #ffffff;
+        position: relative;
+        box-shadow: 0 9px 39px 0 rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    .login.ok button {
+        background-color: #6ADD8F;
+    }
+
+    .login input, .forgot input, .reset input {
+        display: block;
+        padding: 15px 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        border: 1px solid #dedede;
+        transition: border-width 0.2s ease;
+        border-radius: 2px;
+        color: #ccc;
+    }
+
+    .login input+i.fa,
+    .forgot input+i.fa,
+    .reset input+i.fa {
+        color: #fff;
+        font-size: 1.5em;
+        position: absolute;
+        margin-top: -47px;
+        opacity: 0;
+        left: 0;
+    }
+
+    .login input:focus,
+    .forgot input:focus,
+    .reset input:focus {
+        outline: none;
+        border-color: #6add8f;
+        border-left-width: 35px;
+        transition: all 0.2s ease;
+        color: #000;
+    }
+
+    .login input:hover {
+        outline: none;
+        border-color: #6add8f;
+        transition: all 0.3s ease;
+    }
+
+    .login input:focus+i.fa,
+    .forgot input:focus+i.fa,
+    .reset input:focus+i.fa {
+        opacity: 1;
+        left: 32px;
+    }
+
+    .login a {
+        font-size: 0.8em;
+        color: #bfbfbf;
+        text-decoration: none;
+        border-bottom: 1px dotted #bfbfbf;
+        transition: all 240ms ease;
+    }
+
+    .login a:hover {
+        font-size: 1em;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .login button, .forgot button, .reset button, .reset-success button {
+        color: #fff;
+        font-weight: 600;
+        display: block;
+        width: 75%;
+        max-width: 180px;
+        margin: 15px auto 0 auto;
+        padding: 9px 0;
+        border-radius: 12px;
+        background-color: #efefef;
+        transition: all 300ms ease;
+        font-size: 1.8em;
+        text-align: center;
+        border: none;
+    }
+
+    .main-button {
+        display: inline-block;
+    }
+
+    .login button:hover, .forgot button:hover {
+        background-color: #79e196;
+        box-shadow: 1px 1px 33px 0px #efefef;
+        -webkit-transform: scale(1.07);
+        -ms-transform: scale(1.07);
+        transform: scale(1.07);
+        transition: all 300ms ease;
+        color: #fff;
+    }
+
+    .login button:hover:after {
+
+    }
+
+    footer {
+        display: block;
+        padding-top: 33px;
+        text-align: center;
+        font-weight: 600;
+        color: #fff;
+        font-size: 1.2em;
+    }
+
+    footer a,
+    footer a:link {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .arrow_box {
+        position: relative;
+        font-size: 90%;
+        line-height: 140%;
+        width: 90%;
+        max-width: 320px;
+        color: #efefef;
+        padding: 21px;
+        border-radius: 12px;
+        text-align: center;
+    /*    box-shadow: 0 6px 27px 0 rgba(0, 0, 0, 0.06); */
+    }
+
+    .arrow_box a {
+        border-bottom: 1px dotted #efefef;
+    }
+
+    .arrow_box h2 {
+        font-weight: 600;
+        margin: 18px 0;
+        color: #efefef;
+    }
+
+    .error, .forgotError {
+        display: none;
+        color: #cc0066;
+        font-weight: 600;
+    }
+
+    .disp {
+        display: block !important;
+        transition: all 200ms ease;
+    }
+    .wrapper img{
+      width: 60%;
+      max-width: 105px;
+    margin: 3em;
+    }
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#username").on('change keyup paste',function(){
+    $(this).val($(this).val().toLowerCase());
+     })
+})
+</script>
+
+<div class="wrapper">
+  <img src="images/buzzer-roundel.svg" />
+
+    <form class="login" data-ng-show="!isReset">
+        <input ng-model="userName" name="userName" id="username" type="text" placeholder="Restaurant ID" autofocus></input>
+        <i class="fa">🏠</i>
+        <input ng-model="password" auto-fill-sync name="password" type="password" placeholder=""></input>
+        <i class="fa">🔑</i>
+        <span class="error">Error - please check your credentials.</span>
+        <a href="javascript:;" data-ng-click="showForgot()">Forgotten your password?</a>
+        <button ng-click="login()">
+            <span class="main-button">Log in</span>
+        </button>
+    </form>
+    <form class="forgot hidden">
+        <div style="margin-bottom: 10px;">What's your username?</div>
+        <input ng-model="userName" name="userName" type="text" placeholder="Restaurant ID" autofocus></input>
+        <i class="fa">🏠</i>
+        <button ng-click="forgot()">
+            <span class="main-button">Continue</span>
+        </button>
+        <span class="forgotError hidden">Error - please check your Restaurant ID</span>
+
+    </form>
+    <form class="reset" data-ng-show="isReset && !resetSuccess">
+        <input ng-model="resetPassword" name="resetPassword" type="password" placeholder="Password" autofocus></input>
+        <i class="fa">🔑</i>
+        <input ng-model="verify" name="verify" type="password" placeholder="Verify Password" autofocus></input>
+        <i class="fa">🔑</i>
+        <button ng-click="reset()">
+            <span class="main-button">Continue</span>
+        </button>
+        <span class="resetError" data-ng-show="resetError">Error - please ensure Password and verify password are equal.</span>
+
+    </form>
+    <form class="reset-success" data-ng-show="resetSuccess">
+        <div style="margin-bottom: 10px;">Thanks your password has been reset.</div>
+        <button ui-sref="user.signin">
+            <span class="main-button">Login</span>
+        </button>
+    </form>
+    <div class="arrow_box">
+        We're improving the dashboard daily and, with your feedback, we can tailor our platform to the bespoke needs of your business. Please chat to us or <a href="mailto:hello@getbuzzer.com">email us</a> with feedback and suggestions.</div>
+<footer><a target="blank" href="https://getbuzzer.com" style="font-family: 'crc'">Buzzer Feedback</a></footer>
+    </p>
+</div>
+<!--
+
+<div id="root" style="width: 280px; margin: 40px auto; padding: 10px;"></div>
+
+<script>
+// Construct an instance of Auth0Lock with your clientId and aut0 domain name
+var lock = new Auth0Lock('#{epRHx7F8WmfZZ4dTbdlrncOtgarIFYNW}', '#{nutman.auth0.com}',{ auth: {
+redirectUrl: '#{http://localhost:3000/callback}'
+, responseType: 'code'
+, params: {
+scope: 'openid name email picture'
+}
+}});
+
+// Show lock's login widget
+lock.show();
+
+</script>-->
