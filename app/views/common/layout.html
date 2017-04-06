@@ -1,0 +1,17 @@
+<preloader class="preloader ng-hide"></preloader>
+
+<div class="sidebar-panel offscreen-left" data-ng-class="app.layout.isMobileSidebar ? '' : 'is-mobile-sidebar-closed'"
+     data-ng-include="'views/common/sidebar-panel.html'"></div>
+
+<div class="main-panel">
+
+  <div class="header navbar" data-ng-include="'views/common/header.html'"></div>
+
+  <div class="main-content {{$state.current.data.contentClasses}}" analytics-on="scrollby"
+       data-ui-view></div>
+  <!-- /main -->
+
+</div>
+<!-- /content-->
+
+<footer class="content-footer" data-ng-include="'views/common/footer.html'"></footer>
