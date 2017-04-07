@@ -1,0 +1,120 @@
+<div class="row ng-scope" ng-controller="teamRankingCtrl">
+    <loading-caption></loading-caption>
+    <div class="col-md-12" ng-class="loadingAnimClass">
+        <div class="panel mb25">
+            <div class="panel-body">
+                <table class="table mb0">
+                    <thead>
+                    <tr class="table-sortable">
+                        <th class="col-xs-2 col-md-3" ng-click=sortBy('fname')>Name <span class="fa"
+                                                                                           ng-show="propName === 'fname'" ng-class="arrowStyleClass"></span></th>
+                        <th class="col-xs-2 col-md-2" ng-click=sortBy('tabs[0]')>Category <span class="fa" ng-show="propName === 'tabs[0]'" ng-class="arrowStyleClass"></span></th>
+                        <th class="col-xs-1 col-md-1" ng-click=sortBy('feedbackCount')>Feedback collected
+                            <span class="fa" ng-show="propName === 'feedbackCount'" ng-class="arrowStyleClass"></span></th>
+                        <th class="col-xs-2 col-md-2" ng-click=sortBy('serviceRatingAvg')>Average service rating <span
+                                class="fa" ng-show="propName === 'serviceRatingAvg'" ng-class="arrowStyleClass"></span></th>
+                      <!--  <th class="col-xs-1 col-md-2"  ng-click=sortBy('nps')>Average NPS <span class="fa"
+                                                                                        ng-show="propName === 'nps'" ng-class="arrowStyleClass"></span></th> -->
+                        <!--<th class="col-md-2">Overall performance <span class="fa fa-caret-up"></span></th>-->
+                        <th class="col-xs-2 col-md-2"></th>
+                        <th class="col-xs-2 col-md-2" ng-click=sortBy('comments.length')>Comment
+                            <span class="fa" ng-show="propName === 'comments.length'"
+                                  ng-class="arrowStyleClass"></span></th>
+                      <!--  <th class="col-xs-2 col-md-1">Publish</th> -->
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr ng-repeat="staff in staffList | orderBy:propName:reverse">
+                        <td><span>{{staff.fname}} {{staff.lname}}</span></td>
+                        <td class="table-category">
+                            <div ng-repeat="tab in staff.tabs">{{tab}}</div>
+                        </td>
+
+                        <td><span>{{staff.feedbackCount}}</span></td>
+
+                        <td>
+                            <span ng-show="staff.serviceRatingAvg==0">No feedback collected</span>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="staff.serviceRatingAvg>=1"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="staff.serviceRatingAvg>=2"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="staff.serviceRatingAvg>=3"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="staff.serviceRatingAvg>=4"></i>
+                            <i class="fa fa-star" aria-hidden="true" ng-show="staff.serviceRatingAvg==5"></i>
+                            <i class="fa fa-star-half" aria-hidden="true" ng-show="Math.floor(staff.serviceRatingAvg) != staff.serviceRatingAvg"></i>
+                        </td>
+                      <!--  <td class="text-success"><span ng-show="staff.nps>0">{{staff.nps}}%</span><span ng-show="staff.nps==0">NPS unavailable</span></td> -->
+                        <!--<td class="align-middle">-->
+                            <!--<div class="progress progress-sm no-margin">-->
+                                <!--<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 84%">-->
+                                    <!--<span class="sr-only">84%</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <td>{{staff.award}}<span ng-hide="staff.award === ''">&#x1F3C5</span></td>
+                        <td>
+                            <div class="mb2">
+
+                                    <button type="button"
+                                            data-toggle="modal"
+                                            data-target="#modal"
+                                            ng-disabled="staff.comments.length===0"
+                                            class="btn btn-primary btn-outline btn-round" ng-click="modal ? modal = false : modal = true">
+                                            <span ng-if="staff.comments.length===0">No comments</span>
+                                            <span ng-if="staff.comments.length!==0">Click to read</span>
+                                    </button>
+
+                                      <div class="modal fade in" id="modal" role="dialog" ng-show="modal" style="display: block">
+                                        <div class="modal-dialog modal-lg" style="height: 75%">
+                                          <h3>    <div class="modal-content" style="height: 100%">
+                                                <div class="modal-header">
+                                                    <button ng-click="modal ? modal = false : modal = true"
+                                                            type="button"
+                                                            class="close"
+                                                            data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">{{staff.fname}}'s comments</h4>
+                                                </div>
+                                                <div class="modal-body" style="max-height: 70%; overflow-y: scroll">
+                                                    <p class="answers" style="display:block; font-size: 80%; margin-top: 1em;" ng-repeat="answer in staff.comments track by $index">{{answer.comment}}</p>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <span style="float: left; font-size: 70%; color: #2ECC63;"><em>For more responses, check out the "<a style="border-bottom: 1px dotted #2ECC63;" ui-sref="app.social.promote">Promote</a>" tab</em></span>
+                                                    <button
+                                                            class="btn btn-default"
+                                                            type="button"
+                                                            ng-csv="staff.comments"
+                                                            csv-header="['comments']"
+                                                            filename="{{staff.fname}}s_comments.csv"
+                                                    >Download CSV</button>
+
+                                                    <button ng-click="modal ? modal = false : modal = true"
+                                                            type="button"
+                                                            class="btn btn-default"
+                                                            data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div></h3>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                        </td>
+                      <!--  <td>
+
+                            <div class="mb2">
+                                <button type="button"
+                                        ng-disabled="!staff.award"
+                                        class="btn btn-primary btn-outline btn-round"
+                                        data-ng-click="generatePdf(staff)">
+                                    <span ng-if="staff.comments.length===0">No Award</span>
+                                 <span ng-if="staff.comments.length!==0">Export PDF</span>
+                                </button>
+                            </div>
+                        </td>  -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
